@@ -14,14 +14,18 @@ class fifo_test extends uvm_test;
   endfunction
 
   task run_phase (uvm_phase phase);
-    wr_till_full seq;
-    
+    wr_till_full wr_seq_h;
+    rd_till_empty rd_seq_h;
+
     phase.raise_objection(this);
+
+    wr_seq_h = wr_till_full::type_id::create("wr_seq_h");
+    rd_seq_h = rd_till_empty::type_id::create("rd_seq_h");
+
     
-    seq = wr_till_full::type_id::create("seq");
-    
-    seq.start(env.wr_agnt.seqr);
-    
+    wr_seq_h.start(env.wr_agnt.seqr);
+    rd_seq_h.start(env.rd_agnt.seqr);
+   
     phase.drop_objection(this);
   endtask
   

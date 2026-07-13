@@ -22,15 +22,11 @@ initial begin
 end
   
 initial begin
-  repeat (2) begin
-    @(posedge wr_clk);
-    wr_rstn = 0;
-    @(posedge rd_clk);
-    rd_rstn = 0;
-  end
-
-  rd_rstn = 1;
+  wr_rstn = 0;
+  rd_rstn = 0;
+  repeat (5) @(posedge rd_clk); // sync wrt to slow clk
   wr_rstn = 1;
+  rd_rstn = 1;
 end
   
 fifo_wr_if wr_if(wr_clk, wr_rstn);
@@ -55,9 +51,11 @@ afifo (
 initial begin
   $display("================> Initiating FIFO TXN <================");
     
-  uvm_config_db #(virtual fifo_wr_if.DRIVER)::set(null, "*", "wr_if", wr_if);
-  uvm_config_db #(virtual fifo_wr_if.MONITOR)::set(null, "*", "wr_if", wr_if);
-  uvm_config_db #(virtual fifo_rd_if)::set(null, "*", "rd_if", rd_if);
+  uvm_config_db #(virtual fifo_wr_if.DRIVER)::set(null, "*", "wr_drv", wr_if);
+  uvm_config_db #(virtual fifo_wr_if.MONITOR)::set(null, "*", "wr_mon", wr_if);
+
+  uvm_config_db #(virtual fifo_rd_if.DRIVER)::set(null, "*", "rd_drv", rd_if);
+  uvm_config_db #(virtual fifo_rd_if.MONITOR)::set(null, "*", "rd_mon", rd_if);
     
   run_test("fifo_test");
 end

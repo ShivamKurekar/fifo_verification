@@ -10,7 +10,7 @@ class wr_driver extends uvm_driver #(wr_txn);
     function void build_phase (uvm_phase phase);
       super.build_phase(phase);
       
-      if (!uvm_config_db #(virtual fifo_wr_if.DRIVER)::get(this, "", "wr_if", wr_if)) begin
+      if (!uvm_config_db #(virtual fifo_wr_if.DRIVER)::get(this, "", "wr_drv", wr_if)) begin
         `uvm_fatal(get_type_name(), "UNABLE TO FETCH WR INTERFACE")
       end
     endfunction
@@ -58,7 +58,7 @@ class wr_driver extends uvm_driver #(wr_txn);
 
       fork
         begin : DO_DRIVE
-          while (wr_if.wr_cb.full) @(wr_if.wr_cb);
+//           while (wr_if.wr_cb.full) @(wr_if.wr_cb);
           drive_txn(req);
         end
         begin : RESET_MON
