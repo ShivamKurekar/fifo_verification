@@ -21,8 +21,10 @@ import uvm_pkg::*;
 `include "rd_agent.sv"
 
 `include "fifo_scb.sv"
+`include "fifo_cov.sv"
 
 `include "fifo_env.sv"
 `include "fifo_test.sv"
+`include "fifo_rand_test.sv"
 
 endpackage

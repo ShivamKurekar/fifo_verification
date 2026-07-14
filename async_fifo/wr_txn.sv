@@ -1,7 +1,7 @@
 class wr_txn extends uvm_sequence_item;
   
-  rand logic [`DATA_WIDTH - 1: 0] wr_data;
-  rand logic wr_en;
+  randc logic [`DATA_WIDTH - 1: 0] wr_data;
+  randc logic wr_en;
   
   logic full;
   
